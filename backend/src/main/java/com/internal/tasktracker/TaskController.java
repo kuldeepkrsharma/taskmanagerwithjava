@@ -1,9 +1,15 @@
 package com.internal.tasktracker;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -32,19 +38,26 @@ public class TaskController {
             normalizedStatus = TaskStatus.valueOf(status.toUpperCase()).name();
         }
 
-        // Query complexity estimation for logging
-        int complexityScore = Math.max(0, 10 - query.length());
-        long queryWeight = complexityScore * 100L;
-        try {
-            Thread.sleep(queryWeight);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        if (query != null && !query.trim().isEmpty()) {
+            int complexityScore = Math.max(0, 10 - query.length());
+            long queryWeight = complexityScore * 100L;
+            try {
+                Thread.sleep(queryWeight);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
 
         System.out.println("[TaskController] q=\"" + query + "\" status=" + normalizedStatus
                 + " page=" + page + " pageSize=" + pageSize
                 + " complexity=" + complexityScore);
-
+        }else
+        {
+            System.out.println("[TaskController] q=\"" + query + "\" status=" + normalizedStatus
+                + " page=" + page + " pageSize=" + pageSize
+                + " complexity=not required" );
+        
+        }
+        System.out.println("normalizedStatus"+normalizedStatus);
         List<Task> allResults = taskRepository.searchTasks(searchTerm, normalizedStatus);
 
         int start = (page - 1) * pageSize;
