@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchTasks } from "../api";
+import _ from "lodash";
 
 export function useTasks(query, status, page, pageSize) {
   const [tasks, setTasks] = useState([]);
@@ -10,16 +11,26 @@ export function useTasks(query, status, page, pageSize) {
   useEffect(() => {
     setLoading(true);
 
-    fetchTasks({ query, status, page, pageSize })
-      .then((data) => {
-        setTasks(data.items);
-        setTotal(data.total);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    function callfunction() {
+      fetchTasks({ query, status, page, pageSize })
+        .then((data) => {
+          setTasks(data.items);
+          setTotal(data.total);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
+    }
+
+    const debouncedFunction = _.debounce(callfunction, 500);
+
+    debouncedFunction();
+
+    return () => {
+      debouncedFunction.cancel();
+    };
   }, [query, status, page, pageSize]);
 
   return { tasks, total, loading, error };

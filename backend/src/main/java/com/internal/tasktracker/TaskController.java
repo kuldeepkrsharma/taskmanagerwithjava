@@ -30,6 +30,7 @@ public class TaskController {
 
         // Normalize query input
         String query = q == null ? "" : q.trim();
+
         String searchTerm = "%" + query.toLowerCase() + "%";
 
         // Parse status filter
@@ -38,26 +39,19 @@ public class TaskController {
             normalizedStatus = TaskStatus.valueOf(status.toUpperCase()).name();
         }
 
-        if (query != null && !query.trim().isEmpty()) {
-            int complexityScore = Math.max(0, 10 - query.length());
-            long queryWeight = complexityScore * 100L;
-            try {
-                Thread.sleep(queryWeight);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+        int complexityScore = Math.max(0, 10 - query.length());
+        long queryWeight = complexityScore * 100L;
+        try {
+            Thread.sleep(queryWeight);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         System.out.println("[TaskController] q=\"" + query + "\" status=" + normalizedStatus
                 + " page=" + page + " pageSize=" + pageSize
                 + " complexity=" + complexityScore);
-        }else
-        {
-            System.out.println("[TaskController] q=\"" + query + "\" status=" + normalizedStatus
-                + " page=" + page + " pageSize=" + pageSize
-                + " complexity=not required" );
-        
-        }
-        System.out.println("normalizedStatus"+normalizedStatus);
+
+        System.out.println("normalizedStatus" + normalizedStatus);
         List<Task> allResults = taskRepository.searchTasks(searchTerm, normalizedStatus);
 
         int start = (page - 1) * pageSize;

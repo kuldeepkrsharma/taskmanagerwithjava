@@ -16,7 +16,7 @@ export async function fetchTasks({
   console.log("[api] fetching:", url);
 
   const response = await fetch(url);
-  console.log("response", response);
+  // console.log("response", response);
   if (!response.ok) {
     throw new Error(`Request failed: ${response.status}`);
   }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
 import StatusFilter from "./components/StatusFilter";
 import TaskTable from "./components/TaskTable";
@@ -13,6 +13,9 @@ export default function App() {
 
   const totalPages = Math.ceil(total / 10);
 
+  useEffect(() => {
+    setPage(1);
+  }, [status, query]);
   return (
     <div className="app">
       <header className="app-header">
