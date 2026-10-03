@@ -121,6 +121,36 @@ I tested the application with an empty search query and with an actual search qu
 
 ---
 
+### Issue 3: [Loading state not reset on API error]
+
+**Problem:**
+
+When the API request failed with a `500 Internal Server Error`, the loading state was not changing back to `false`.
+![Connection Error 1](images/Connectionerror1.png)
+
+**How I found it:**
+
+I checked the API response and found that the request returned status `500`. I then checked the `.catch()` block in the `useTasks` hook.
+
+**Root cause:**
+
+`setLoading(false)` was only called inside `.then()`, so it was never executed when the request failed.
+
+**Fix:**
+
+Added `setLoading(false)` inside the `.catch()` block.
+![Connection Error 1](images/Connectionerror2.png)
+
+**Why this fix:**
+
+It ensures that the loading state is stopped even when the API request fails.
+
+**Verification:**
+
+Tested with a `500` API response and confirmed that the error was caught and the loading state changed to `false`.
+
+---
+
 ### Issue 3: [Short issue title]
 
 **Problem:**

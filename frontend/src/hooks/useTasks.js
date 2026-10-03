@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { fetchTasks } from '../api';
+import { useState, useEffect } from "react";
+import { fetchTasks } from "../api";
 
 export function useTasks(query, status, page, pageSize) {
   const [tasks, setTasks] = useState([]);
@@ -18,6 +18,7 @@ export function useTasks(query, status, page, pageSize) {
       })
       .catch((err) => {
         setError(err.message);
+        setLoading(false);
       });
   }, [query, status, page, pageSize]);
 
