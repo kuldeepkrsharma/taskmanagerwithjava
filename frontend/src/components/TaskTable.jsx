@@ -202,10 +202,9 @@ export default function TaskTable({ tasks, loading, error }) {
               <div className="task-desc">{task.description}</div>
             </td>
 
-            <td>
+            <td title={task.status}>
               <span
                 className={`status-badge td-icon ${task.status.toLowerCase()}`}
-                title={task.status}
               >
                 {task.status.toLowerCase() == "open" && (
                   <LuFilePlus2 size={20} />
@@ -219,8 +218,8 @@ export default function TaskTable({ tasks, loading, error }) {
               </span>
             </td>
 
-            <td className="td-icon">
-              <span className="" title={task.priority}>
+            <td className="td-icon" title={task.priority}>
+              <span className="">
                 {task.priority.toLowerCase() == "high" && (
                   <LuTriangleAlert size={20} color="red" />
                 )}

@@ -68,7 +68,7 @@ I used parentheses to explicitly control the logical order of the SQL conditions
 
 **Verification:**
 
-I tested the filter with different combinations of search terms and statuses. I verified that selecting a specific status returned only tasks with that status, while leaving the status filter empty returned tasks matching the search term regardless of status. I also verified that archived tasks were excluded from the results.
+I tested the filter with different combinations of search terms and statuses. I verified that selecting a specific status returned only tasks with that status, while leaving the status filter empty returned tasks matching the search term regardless of status.
 
 ---
 
@@ -208,7 +208,7 @@ When changing the status filter or search query, the results were not displayed 
 
 **How I found it:**
 
-I tested the status filter and search functionality and noticed that the page number was not resetting to 1 when the status or search query changed.
+I tested the status filter and search functionality and noticed that the page number was not resetting to 1 when the status or search query changed. As a result, the searched keyword might not be found on the current page, causing unexpected pagination behavior when navigating between pages. This issue could only be resolved by clearing the entire search query.
 
 **Root cause:**
 
@@ -229,28 +229,6 @@ When the status filter or search query changes, the number of available results 
 **Verification:**
 
 Tested by changing the status from All to Done and by changing the search query. In both cases, the page number automatically resets to 1, and the correct filtered or searched results are displayed.
-
----
-
-### Issue 3: [Short issue title]
-
-**Problem:**
-[Describe what was wrong.]
-
-**How I found it:**
-[Describe how you identified the issue.]
-
-**Root cause:**
-[Explain the root cause.]
-
-**Fix:**
-[Explain what you changed.]
-
-**Why this fix:**
-[Explain why you chose this solution.]
-
-**Verification:**
-[Explain how you tested the fix.]
 
 ---
 
@@ -316,19 +294,33 @@ Tested the component with the `loading` state set to `true` and verified that th
 
 ---
 
-### Improvement 2: [Short title]
+### Improvement 4: Status and Priority Icons
 
 **Problem / Opportunity:**
-[Describe what could be improved.]
+
+The Status and Priority columns displayed task information with limited visual distinction, making it less convenient to identify the status or priority at a glance.
 
 **Change:**
-[Describe what you changed.]
+
+Added meaningful icons to the **Status** and **Priority** columns.
+
+- Added different icons for each status:
+  - **Open** → File icon
+  - **In Progress** → Pending actions icon
+  - **Done** → Check-circle icon
+
+- Added an alert icon for each priority:
+  - **High** → Red alert icon
+  - **Medium** → Orange alert icon
+  - **Low** → Default alert icon
 
 **Reason:**
-[Explain why the change provides value.]
+
+The icons provide quick visual identification of a task's status and priority, making the table easier to scan and improving overall readability.
 
 **Verification:**
-[Explain how you tested the improvement.]
+
+Tested the component with different task statuses and priorities and verified that the appropriate icons are displayed for each value. Also verified that the status and priority tooltips display the corresponding text when hovering over the icons.
 
 ---
 
@@ -339,63 +331,4 @@ Tested the component with the `loading` state set to `true` and verified that th
 - I avoided unnecessary architectural changes.
 - I kept the existing application structure where possible.
 - I tested changes locally before considering them complete.
-- Any additional assumptions made during implementation are documented below.
-
-### Additional Assumptions
-
-- [Add assumption here if required.]
-- [Add assumption here if required.]
-
----
-
-## 6. Testing
-
-After making the changes, I tested:
-
-- [ ] Application startup
-- [ ] Frontend application loading
-- [ ] Backend application startup
-- [ ] Main frontend functionality
-- [ ] Main API endpoints
-- [ ] Create operation
-- [ ] Update operation
-- [ ] Delete operation
-- [ ] Search functionality
-- [ ] Filter functionality
-- [ ] Input validation
-- [ ] Error handling
-- [ ] Database behavior
-- [ ] Loading states
-- [ ] Empty states
-- [ ] Regression testing of existing functionality
-
----
-
-## 7. Files Changed
-
-The main files changed during the exercise are listed below.
-
-### Frontend
-
-- `[file path]` — [brief description of the change]
-- `[file path]` — [brief description of the change]
-
-### Backend
-
-- `[file path]` — [brief description of the change]
-- `[file path]` — [brief description of the change]
-
-### Other
-
-- `NOTES.md` — documented findings, fixes, assumptions, and testing.
-- `handwritten/` — handwritten explanations of the findings and changes.
-
----
-
-## 8. Final Summary
-
-The changes in this submission focus primarily on fixing the highest-impact issues identified during testing.
-
-I prioritized functional correctness, reliability, and user-facing behavior over minor cosmetic changes.
-
-Each implemented fix was reviewed and tested after the change. The reasoning behind the important fixes is also documented in the handwritten notes included in the `handwritten/` directory.
+- I have assumed that the provided SQL given in query is correct and no changes required.
