@@ -14,10 +14,11 @@ export default function TaskTable({ tasks, loading, error }) {
     return (
       <div className="state-message">
         <div>
-          <PiSpinnerBallFill className="spin" size={50} />
+          <img src="https://zenox.lol/loaders/dog-dance.gif" width={100} />
+          {/* <PiSpinnerBallFill className="spin" size={50} /> */}
           <br />
         </div>
-        😭 Finding today's suffering...
+        Finding today's workload
       </div>
     );
   }
