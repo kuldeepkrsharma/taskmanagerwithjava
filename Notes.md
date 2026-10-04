@@ -230,7 +230,67 @@ When the status filter or search query changes, the number of available results 
 
 Tested by changing the status from All to Done and by changing the search query. In both cases, the page number automatically resets to 1, and the correct filtered or searched results are displayed.
 
----
+### Issue 4: Pagination and Retry Button on Connection Error
+
+**Problem:**
+
+When the API connection failed while fetching tasks, the pagination controls were still visible. Since there was no valid task data to paginate through, displaying the pagination buttons was unnecessary and confusing.
+![Connection Error 1](images/Connectionerror3.png)
+
+**How I found it:**
+
+I performed a sanity check by testing the application when the backend/API connection was unavailable. I noticed that the pagination controls were still displayed even though an error had occurred while fetching the task data.
+
+**Root cause:**
+
+The pagination controls were being rendered based only on the `totalPages` condition. The error state was not being considered when deciding whether to display the pagination buttons.
+
+**Fix:**
+
+I updated the pagination condition to ensure that the pagination controls are displayed only when there is no error and there is more than one page.
+
+```jsx
+{
+  !error && totalPages > 1 && (
+    <>
+      <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+        Previous
+      </button>
+      Page {page} of {totalPages}
+      <button
+        disabled={page >= totalPages}
+        onClick={() => setPage((p) => p + 1)}
+      >
+        Next
+      </button>
+    </>
+  );
+}
+```
+
+I also added a **Try again** button that is displayed when an error occurs. The button updates the `tryagain` counter, which triggers another attempt to fetch the task data.
+
+```jsx
+{
+  error && (
+    <button
+      onClick={() => {
+        settryagain(tryagain + 1);
+      }}
+    >
+      Try again
+    </button>
+  );
+}
+```
+
+**Why this fix:**
+
+The pagination controls should only be available when valid task data has been loaded. Hiding them during an error state prevents users from interacting with pagination when there are no valid results. The **Try again** button provides the user with a clear way to retry the failed request.
+
+**Verification:**
+
+Tested the application with the backend/API connection unavailable and verified that the pagination controls were hidden and the **Try again** button was displayed. Also verified that clicking **Try again** updates the retry counter and triggers another attempt to fetch the task data. Once the connection is restored and the data is loaded successfully, the pagination controls are displayed again when there is more than one page.
 
 ## 4. Improvements
 
