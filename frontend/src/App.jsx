@@ -13,6 +13,7 @@ export default function App() {
 
   const totalPages = Math.ceil(total / 10);
 
+  // Reset page number on query search or status search
   useEffect(() => {
     setPage(1);
   }, [status, query]);

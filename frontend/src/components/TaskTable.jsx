@@ -38,7 +38,7 @@ export default function TaskTable({ tasks, loading, error }) {
   if (!tasks || tasks.length === 0) {
     return <div className="state-message">No tasks found.</div>;
   }
-
+  // Sort Item on click on any coloumn
   function sortitem(sortby) {
     if (sortby === sortbyitem) {
       setascending((prev) => !prev);
@@ -218,8 +218,8 @@ export default function TaskTable({ tasks, loading, error }) {
               </span>
             </td>
 
-            <td className="td-icon" title={task.priority}>
-              <span className="">
+            <td className="" title={task.priority}>
+              <div className="td-icon">
                 {task.priority.toLowerCase() == "high" && (
                   <LuTriangleAlert size={20} color="red" />
                 )}
@@ -229,12 +229,10 @@ export default function TaskTable({ tasks, loading, error }) {
                 {task.priority.toLowerCase() == "low" && (
                   <LuTriangleAlert size={20} />
                 )}
-              </span>
+              </div>
             </td>
 
-            <td style={{ "text-align": "center" }}>
-              {task.assignee || "\u2014"}
-            </td>
+            <td>{task.assignee || "\u2014"}</td>
           </tr>
         ))}
       </tbody>
