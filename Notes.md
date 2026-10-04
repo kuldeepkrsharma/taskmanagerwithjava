@@ -1,5 +1,7 @@
 # Technical Exercise Notes
 
+## CHATGPT has been used to analyse and make changes in this project
+
 ## 1. Approach
 
 I first read the README and set up the application locally.
