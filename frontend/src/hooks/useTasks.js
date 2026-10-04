@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchTasks } from "../api";
 import _ from "lodash";
 
-export function useTasks(query, status, page, pageSize) {
+export function useTasks(tryagain, query, status, page, pageSize) {
   const [tasks, setTasks] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export function useTasks(query, status, page, pageSize) {
     return () => {
       debouncedFunction.cancel();
     };
-  }, [query, status, page, pageSize]);
+  }, [query, status, page, pageSize, tryagain]);
 
   return { tasks, total, loading, error };
 }

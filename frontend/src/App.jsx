@@ -8,8 +8,15 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [tryagain, settryagain] = useState(0);
 
-  const { tasks, total, loading, error } = useTasks(query, status, page, 10);
+  const { tasks, total, loading, error } = useTasks(
+    tryagain,
+    query,
+    status,
+    page,
+    10,
+  );
 
   const totalPages = Math.ceil(total / 10);
 
@@ -31,7 +38,7 @@ export default function App() {
 
       <TaskTable tasks={tasks} loading={loading} error={error} />
 
-      {totalPages > 1 && (
+      {!error && totalPages > 1 && (
         <div className="pagination">
           <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Previous
@@ -44,6 +51,17 @@ export default function App() {
             onClick={() => setPage((p) => p + 1)}
           >
             Next
+          </button>
+        </div>
+      )}
+      {error && (
+        <div className="pagination">
+          <button
+            onClick={() => {
+              settryagain(tryagain + 1);
+            }}
+          >
+            Try again
           </button>
         </div>
       )}
